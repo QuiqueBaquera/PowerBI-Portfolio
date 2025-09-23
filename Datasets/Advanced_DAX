@@ -1,0 +1,12 @@
+Empezamos editando la tabla de Ventas para crear la columna de Total_Venta:
+Total_Venta = Ventas[Cantidad] * Ventas[Precio_Unitario]
+
+Queremos saber el descuento aplicado a las ventas de cada producto:
+Descuento_Venta = (Ventas[Total_Venta] * Ventas[Descuento])/100
+
+Para saber el total que tiene que pagar el cliente:
+Total_A_Pagar = Ventas[Total_Venta] - Ventas[Descuento_Venta] 
+
+El precio medio de venta de cada producto es:
+Precio_Promedio = Ventas[Precio_Unitario] * (1-Ventas[Descuento] / 100) 
+
