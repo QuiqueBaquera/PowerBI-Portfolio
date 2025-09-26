@@ -10,3 +10,39 @@ Total_A_Pagar = Ventas[Total_Venta] - Ventas[Descuento_Venta]
 El precio medio de venta de cada producto es:
 Precio_Promedio = Ventas[Precio_Unitario] * (1-Ventas[Descuento] / 100) 
 
+
+
+SUMX-FILTER-RELATED
+
+Para que calcula una operación para cada entrada de una columna:
+VentasConDescuento = SUMX(ordenes_detalle, ordenes_detalle[precio_unitario]*ordenes_detalle[cantidad]*(1-ordenes_detalle[descuento]))
+La primera parte es para elegir la tabla, y luego especificas la operación que quieres realizar.
+
+Para hacer lo mismo pero con un filtro:
+VentasPorPaís = SUMX(FILTER(ordenes_detalle, RELATED(clientes[país])="Mexico"), ordenes_detalle[precio_unitario]*ordenes_detalle[cantidad])
+Primero especificas qué tabla quieres filtrar y luego el filtro (hay que poner RELATED porque usas el filtro de otra trabla). Por última la opración.
+
+
+
+AVERAGE-COLLECT
+
+PromedioCosto = AVERAGE(productos[costo_unitario])
+
+StockPromedioCategoria = CALCULATE(AVERAGE(productos[unidades_en_stock]), ALLEXCEPT(productos,productos[categoría_id]))
+El CALCULATE modifica el contexto de filtro de la expresión de dentro de su paréntesis. El ALLEXCEPT elimina todos los filtros de una tabla excepto los que se especifican luego.
+
+PromNoDescontinuados = CALCULATE(AVERAGE(productos[unidades_en_orden]), productos[descontinuado] = 0)
+Te va a hacer el promedio de las unidades en orden sin productos descontinuados. 
+
+
+
+
+COUNT
+TotalClientes = COUNT(clientes[cliente_id])
+
+Si el ID es de tipo texto tienes que poner esta función:
+TotalClientes = COUNTROWS(clientes)
+Solo pones la tabla. 
+
+Para crear una columna de Empleados Por Ciudad:
+EmpXCiudad= CALCULATE(COUNT('empleados'[empleado_id]),ALLEXCEPT('empleados','empleados'[ciudad]))
